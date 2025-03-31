@@ -16,11 +16,7 @@ export default function imgGrid() {
 
   const items = [
     {
-<<<<<<< HEAD
-      title: "Vishal Shingana",
-=======
       title: "Vishal Shingala",
->>>>>>> a3b869ce4405ace23101032a8605bf19aa8254c6
       img: "./src/assets/vishal.png",
       description: "Experience New York, Nonstop",
       details: "Travel Time: 15 Hours, 15 Minutes",
