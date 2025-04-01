@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function PassengerLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const handleSignIn = () => {
+    navigate("/sign-in/captain-sign-in", { replace: true });
+  };
 
   return (
     <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
@@ -68,13 +73,19 @@ export default function PassengerLogin() {
           className="mt-4 bg-black text-white font-medium rounded-lg py-2 hover:bg-gray-800 cursor-pointer"
           onClick={(e) => e.preventDefault()}
         >
-          Sign In
+          Login
         </button>
 
-        <p className="text-center text-sm text-gray-700">
+        <div className="text-center text-sm justify-center flex cursor-pointer">
           Don't have an account?{" "}
-          <span className="text-blue-500 cursor-pointer">Sign Up</span>
-        </p>
+          <NavLink
+            to="/Sign-in/Passenger-sign-in"
+            onClick={handleSignIn}
+            className="relative cursor-pointer flex text-blue-700 underline "
+          >
+            Sign In
+          </NavLink>
+        </div>
 
         <p className="text-center text-sm text-gray-500">Or With</p>
 

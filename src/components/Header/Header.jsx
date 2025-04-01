@@ -53,12 +53,18 @@ export default function Header() {
               <NavLink
                 to="/Login/passenger"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-all"
+                onClick={(e) => {
+                  setShowOptions(!showOptions);
+                }}
               >
                 Passenger
               </NavLink>
               <NavLink
                 to="/login/captain"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-all"
+                onClick={(e) => {
+                  setShowOptions(!showOptions);
+                }}
               >
                 Captain
               </NavLink>
