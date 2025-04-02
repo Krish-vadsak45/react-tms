@@ -9,6 +9,8 @@ import {
   Clock,
   Send,
 } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Emergency = () => {
   const [location, setLocation] = useState("");
@@ -18,7 +20,38 @@ const Emergency = () => {
     e.preventDefault();
     // Handle emergency submission here
     console.log({ location, description });
-    alert("Emergency services have been notified. Help is on the way.");
+    if (!location || !description) {
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    toast.error("Emergency Alert Sent!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    toast.success("We will help you soon!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+    // alert("Emergency services have been notified. Help is on the way.");
   };
 
   return (
@@ -54,6 +87,7 @@ const Emergency = () => {
                     onChange={(e) => setLocation(e.target.value)}
                     className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-10 focus:outline-none focus:ring-2 focus:ring-red-500"
                     placeholder="Enter your current location"
+                    required
                   />
                 </div>
               </div>
@@ -67,12 +101,13 @@ const Emergency = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-4 h-32 focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="Briefly describe your emergency situation"
+                  required
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <Send className="h-5 w-5" />
                 Send Emergency Alert

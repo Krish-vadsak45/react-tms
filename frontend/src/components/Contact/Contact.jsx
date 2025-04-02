@@ -157,6 +157,8 @@ import {
   MapPinned,
   Building2,
 } from "lucide-react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -167,7 +169,30 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ name, email, subject, message });
-    alert("Thank you for your message. We will get back to you soon!");
+
+    if (!name || !email || !subject || !message) {
+      toast.error("Please fill in all fields!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+
+    toast.success("Message sent successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
     setName("");
     setEmail("");
     setSubject("");
@@ -252,7 +277,7 @@ export default function Contact() {
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-4 h-32 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full max-h-[300px] min-h-[100px] bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-4 h-32 focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="Your message here..."
                   required
                 />

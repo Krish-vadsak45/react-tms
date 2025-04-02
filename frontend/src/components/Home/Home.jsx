@@ -13,6 +13,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const [stats, setStats] = useState([
@@ -153,14 +155,8 @@ const Home = () => {
           setEstimatedTime(element.duration.text);
           setEstimatedPrice(
             Math.round(parseFloat(element.distance.value) / 1000) * 10
-          ); // Assuming a rate of 10 per km
-          // alert(
-          //   `Distance: ${element.distance.text}, Duration: ${element.duration.text}`
-          // );
+          );
           setShowConfirmation(true);
-          // setPickup("");
-          // setDestination("");
-          // setShowForm(false);
         } else if (element.status === "ZERO_RESULTS") {
           console.log("No results found for the given locations.");
         } else {
@@ -332,11 +328,37 @@ const Home = () => {
                 <button
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg mt-6 transition-colors cursor-pointer"
                   onClick={() => {
+                    console.log("Ride booked successfully!");
+                    toast.success("Ride booked successfully!", {
+                      position: "top-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: false,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                      transition: Bounce,
+                    });
+                    toast.success("Enjoy your ride!", {
+                      position: "top-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: false,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                      transition: Bounce,
+                    });
+
+                    setTimeout(() => {
+                      setShowConfirmation(false);
+                    }, 5000);
                     setPickup("");
                     setDestination("");
                     setShowForm(false);
-                    setShowConfirmation(false);
-                    alert("Booking confirmed! Your ride is on the way.");
+                    setDistance(0);
                   }}
                 >
                   BOOK NOW - ${estimatedPrice}

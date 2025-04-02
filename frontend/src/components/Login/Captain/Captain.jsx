@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CaptainLogin() {
   const [email, setEmail] = useState("");
@@ -9,10 +11,40 @@ export default function CaptainLogin() {
   const handleSignIn = () => {
     navigate("/sign-in/captain-sign-in", { replace: true });
   };
+  const handleLoginsubmit = (e) => {
+    e.preventDefault();
+    console.log({ email, password });
+    if (!email || !password) {
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    toast.success("Login Succesfull!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+    // alert("Emergency services have been notified. Help is on the way.");
+  };
 
   return (
     <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
-      <form className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg">
+      <form
+        onSubmit={handleLoginsubmit}
+        className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg"
+      >
         <h2 className="text-center text-2xl font-semibold text-gray-800">
           Captain Login
         </h2>
@@ -29,6 +61,7 @@ export default function CaptainLogin() {
               placeholder="Enter your Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -42,6 +75,7 @@ export default function CaptainLogin() {
               placeholder="Enter your Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               // autoComplete="new-password"
             />
             <button
@@ -69,10 +103,7 @@ export default function CaptainLogin() {
           <span className="text-blue-500 cursor-pointer">Forgot password?</span>
         </div>
 
-        <button
-          className="mt-4 bg-black text-white font-medium rounded-lg py-2 hover:bg-gray-800 cursor-pointer"
-          onClick={(e) => e.preventDefault()}
-        >
+        <button className="mt-4 bg-black text-white font-medium rounded-lg py-2 hover:bg-gray-800 cursor-pointer">
           Login
         </button>
 
@@ -85,23 +116,6 @@ export default function CaptainLogin() {
           >
             Sign In
           </NavLink>
-        </div>
-
-        <p className="text-center text-sm text-gray-500">Or With</p>
-
-        <div className="flex gap-4">
-          <button
-            className="flex-1 border border-gray-300 rounded-lg py-2 hover:border-blue-500 cursor-pointer"
-            onClick={(e) => e.preventDefault()}
-          >
-            Google
-          </button>
-          <button
-            className="flex-1 border border-gray-300 rounded-lg py-2 hover:border-blue-500 cursor-pointer"
-            onClick={(e) => e.preventDefault()}
-          >
-            Apple
-          </button>
         </div>
       </form>
     </div>

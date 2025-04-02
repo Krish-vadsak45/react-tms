@@ -7,7 +7,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Home from "./components/Home/home.jsx";
+import Home from "./components/Home/Home.jsx";
 import About from "./components/About/About.jsx";
 import Contact from "./components/Contact/Contact.jsx";
 import Layout from "./App.jsx";
@@ -19,6 +19,8 @@ import PassengerLogin from "./components/Login/Passenger/Passenger.jsx";
 import CaptainLogin from "./components/Login/Captain/Captain.jsx";
 import Captainsignin from "./components/Sign-in/Captain-sign-in/Captain-sign-in.jsx";
 import Pasengersignin from "./components/Sign-in/Passenger-sign-in/Passenger-sign-in.jsx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const router = createBrowserRouter([
 //   {
@@ -62,5 +64,6 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
     <RouterProvider router={router} />
+    <ToastContainer />
   </>
 );

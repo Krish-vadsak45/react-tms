@@ -1,20 +1,52 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Passengersignin() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [carNo, setCarNo] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
   const navigate = useNavigate();
   const handleLogin = () => {
     navigate("/Login/passenger", { replace: true });
   };
 
+  const handleSigninsubmit = (e) => {
+    e.preventDefault();
+    console.log({ username, mobile, carNo, email, password });
+    if (!email || !password || !username || !mobile || !carNo) {
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    toast.success("Sign-in Succesfull!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   return (
     <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
-      <form className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg">
+      <form
+        onSubmit={handleSigninsubmit}
+        className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg"
+      >
         <h2 className="text-center text-2xl font-semibold text-gray-800">
           Passenger Sign In
         </h2>
@@ -30,6 +62,35 @@ export default function Passengersignin() {
               placeholder="Enter your Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="font-semibold text-gray-800">Mobile No.</label>
+          <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
+            <input
+              type="tel"
+              className="ml-2 flex-grow border-none focus:outline-none"
+              placeholder="Enter your Username"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col">
+          <label className="font-semibold text-gray-800">Car No.</label>
+          <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
+            <input
+              type="text"
+              className="ml-2 flex-grow border-none focus:outline-none"
+              placeholder="Enter your Email"
+              value={carNo}
+              onChange={(e) => setCarNo(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -43,6 +104,7 @@ export default function Passengersignin() {
               placeholder="Enter your Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -56,6 +118,7 @@ export default function Passengersignin() {
               placeholder="Enter your Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               // autoComplete="new-password"
             />
             <button
@@ -76,37 +139,6 @@ export default function Passengersignin() {
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <label className="font-semibold text-gray-800">
-            Confirm Password
-          </label>
-          <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
-            <input
-              type={showPassword2 ? "text" : "password"}
-              className="ml-2 flex-grow border-none focus:outline-none [&::-ms-reveal]:hidden [&::-webkit-contacts-auto-fill-button]:hidden"
-              placeholder="Enter your Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              // autoComplete="new-password"
-            />
-            <button
-              type="button"
-              className="ml-2 text-gray-500 focus:outline-none cursor-pointer"
-              onClick={() => setShowPassword2(!showPassword2)}
-            >
-              <img
-                src={
-                  showPassword2
-                    ? "../src/assets/eye-open.svg"
-                    : "../src/assets/eye-close.svg"
-                }
-                alt={showPassword2 ? "Hide Password" : "Show Password"}
-                className="w-6 h-6"
-              />
-            </button>
-          </div>
-        </div>
-
         <div className="flex justify-between items-center text-sm">
           <label className="flex items-center text-gray-700">
             <input type="checkbox" className="mr-2" /> Remember me
@@ -114,10 +146,7 @@ export default function Passengersignin() {
           <span className="text-blue-500 cursor-pointer">Forgot password?</span>
         </div>
 
-        <button
-          className="mt-4 bg-black text-white font-medium rounded-lg py-2 hover:bg-gray-800 cursor-pointer"
-          onClick={(e) => e.preventDefault()}
-        >
+        <button className="mt-4 bg-black text-white font-medium rounded-lg py-2 hover:bg-gray-800 cursor-pointer">
           Sign In
         </button>
 
@@ -130,23 +159,6 @@ export default function Passengersignin() {
           >
             Login
           </NavLink>
-        </div>
-
-        <p className="text-center text-sm text-gray-500">Or With</p>
-
-        <div className="flex gap-4">
-          <button
-            className="flex-1 border border-gray-300 rounded-lg py-2 hover:border-blue-500 cursor-pointer"
-            onClick={(e) => e.preventDefault()}
-          >
-            Google
-          </button>
-          <button
-            className="flex-1 border border-gray-300 rounded-lg py-2 hover:border-blue-500 cursor-pointer"
-            onClick={(e) => e.preventDefault()}
-          >
-            Apple
-          </button>
         </div>
       </form>
     </div>
