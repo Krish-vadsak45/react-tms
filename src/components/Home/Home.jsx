@@ -381,7 +381,7 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <div className="bg-gradient-to-b ">
+      <div className=" bg-black">
         <section className="py-16 px-6 text-white text-center transition-opacity duration-700">
           <h2 className="text-3xl font-bold mb-10">
             Global mobility ecosystem driving <br /> communities forward
@@ -460,7 +460,7 @@ const Home = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
+      <section className="py-20 bg-black">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl text-white md:text-4xl font-bold mb-4">
@@ -512,7 +512,7 @@ const Home = () => {
       </section>
 
       {/* App Download Section */}
-      <section className="py-5   relative overflow-hidden">
+      <section className="py-5 bg-gradient-to-r from-orange-900/40 to-black  relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1600')] opacity-20 bg-cover bg-center"></div>
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between">

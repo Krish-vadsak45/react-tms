@@ -17,6 +17,8 @@ import Emergency from "./components/Emergency/Emergency.jsx";
 import Feedback from "./components/Feedback/Feedback.jsx";
 import PassengerLogin from "./components/Login/Passenger/Passenger.jsx";
 import CaptainLogin from "./components/Login/Captain/Captain.jsx";
+import Captainsignin from "./components/Sign-in/Captain-sign-in/Captain-sign-in.jsx";
+import Pasengersignin from "./components/Sign-in/Passenger-sign-in/Passenger-sign-in.jsx";
 
 // const router = createBrowserRouter([
 //   {
@@ -51,6 +53,8 @@ const router = createBrowserRouter(
       <Route path="Feedback" element={<Feedback />} />
       <Route path="/login/passenger" element={<PassengerLogin />} />
       <Route path="/login/captain" element={<CaptainLogin />} />
+      <Route path="/Sign-in/Captain-sign-in" element={<Captainsignin />} />
+      <Route path="/Sign-in/Passenger-sign-in" element={<Pasengersignin />} />
     </Route>
   )
 );

@@ -21,7 +21,7 @@ export default function Header() {
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link to="/" className="flex items-center">
             <img
-              src="./src/assets/logo.png"
+              src="../src/assets/logo.png"
               className="mr-3 h-12 scale-300 pt-1.5"
               alt="Logo"
             />
@@ -53,12 +53,18 @@ export default function Header() {
               <NavLink
                 to="/Login/passenger"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-all"
+                onClick={(e) => {
+                  setShowOptions(!showOptions);
+                }}
               >
                 Passenger
               </NavLink>
               <NavLink
                 to="/login/captain"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-all"
+                onClick={(e) => {
+                  setShowOptions(!showOptions);
+                }}
               >
                 Captain
               </NavLink>
