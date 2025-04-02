@@ -2,9 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import {
   MapPin,
   Clock,
+  Wallet,
   Shield,
   CreditCard,
   ChevronRight,
+  DollarSign,
+  Navigation,
   Star,
   Download,
   MessageSquare,
@@ -12,8 +15,6 @@ import {
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [showForm, setShowForm] = useState(false);
-
   const [stats, setStats] = useState([
     {
       id: 1,
@@ -107,6 +108,23 @@ const Home = () => {
     "yilPvIBDkUeSfXZCMxlHJRKu2zMbUy9DDFlUjnFDZiAdZG6m4Ei2cEQhRKoR5V2E";
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
+  // const [showbookride, setShowbookride] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState("card");
+  const [distance, setDistance] = useState(0);
+  const [estimatedTime, setEstimatedTime] = useState(0);
+  const [estimatedPrice, setEstimatedPrice] = useState(0);
+
+  const handleConfirmRide = async (e) => {
+    e.preventDefault();
+    if (pickup && destination) {
+      setShowConfirmation(true);
+    }
+    await calculateDistance();
+    setShowForm(false);
+    setShowConfirmation(true);
+  };
 
   const calculateDistance = async () => {
     if (!pickup || !destination) {
@@ -131,26 +149,28 @@ const Home = () => {
         const element = data.rows[0].elements[0];
         if (element.status === "OK") {
           // `Distance: ${element.distance.text}, Duration: ${element.duration.text}`
-          const distance = element.distance.value;
-          const duration = element.duration.value;
-          const price = Math.round(distance / 1000) * 10; // Assuming a rate of 10 per km
-          alert(
-            `Distance: ${element.distance.text}, Duration: ${element.duration.text}`
-          );
-          setPickup("");
-          setDestination("");
-          setShowForm(false);
+          setDistance(element.distance.text);
+          setEstimatedTime(element.duration.text);
+          setEstimatedPrice(
+            Math.round(parseFloat(element.distance.value) / 1000) * 10
+          ); // Assuming a rate of 10 per km
+          // alert(
+          //   `Distance: ${element.distance.text}, Duration: ${element.duration.text}`
+          // );
+          setShowConfirmation(true);
+          // setPickup("");
+          // setDestination("");
+          // setShowForm(false);
         } else if (element.status === "ZERO_RESULTS") {
-          setResult("No results found for the given locations.");
+          console.log("No results found for the given locations.");
         } else {
-          setResult("Unable to find distance.");
+          console.log("Unable to find distance.");
         }
       } else {
-        setResult("Invalid response from API.");
+        console.log("Invalid response from API.");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-      setResult("Error fetching distance information.");
     }
   };
 
@@ -191,17 +211,23 @@ const Home = () => {
               Fast, reliable, and affordable taxi service at your fingertips.
             </p>
           </div>
-
-          {!showForm ? (
+          {!showForm && !showConfirmation && (
             <button
-              className="px-10 py-4 mt-8 rounded-full cursor-pointer border-0 bg-black shadow-md text-lg uppercase tracking-wider transition-all duration-500 hover:tracking-widest hover:bg-yellow-400 hover:text-black hover:shadow-[0px_7px_29px_0px_rgba(255,215,0,0.8)] active:shadow-none active:translate-y-2"
+              className="px-10 py-4 mt-8 rounded-full bg-black shadow-md text-lg uppercase tracking-wider transition-all duration-500 hover:tracking-widest hover:bg-yellow-400 hover:text-black cursor-pointer"
               onClick={() => setShowForm(true)}
             >
               Book a Ride
             </button>
-          ) : (
+          )}
+          {showForm && !showConfirmation && (
             <div className="p-6 rounded-lg shadow-lg min-w-[570px] animate-slide-up mr-10 bg-transparent transition-transform duration-2000 ease-in-out">
-              <form className="m-8 max-md:w-[400px] bg-transparent">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleConfirmRide(e);
+                }}
+                className="m-8 max-md:w-[400px] bg-transparent"
+              >
                 <div className="relative mb-6">
                   <input
                     type="text"
@@ -234,15 +260,88 @@ const Home = () => {
                   <button
                     id="calculate"
                     className="relative px-6 py-3 text-white uppercase transition-all duration-300 bg-yellow-500 rounded-md shadow-lg hover:bg-yellow-600 hover:shadow-yellow-500/50 cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      calculateDistance();
-                    }}
                   >
                     Confirm Ride
                   </button>
                 </div>
               </form>
+            </div>
+          )}
+          {showConfirmation && (
+            <div className="w-full max-w-md space-y-2">
+              <div className="bg-gray-800 rounded-lg p-6 space-y-4">
+                <h2 className="text-2xl font-bold">Ride Details</h2>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <MapPin className="h-5 w-5 text-red-500" />
+                    <div>
+                      <p className="text-sm text-gray-400">Pickup</p>
+                      <p className="font-medium">{pickup}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Navigation className="h-5 w-5 text-red-500" />
+                    <div>
+                      <p className="text-sm text-gray-400">Destination</p>
+                      <p className="font-medium">{destination}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center border-t border-gray-700 pt-1">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-5 w-5 text-gray-400" />
+                    <span>Estimated Time: {estimatedTime}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <DollarSign className="h-5 w-5 text-gray-400" />
+                    <span>Estimated Price: ${estimatedPrice}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-6">
+                <h3 className="text-xl font-bold mb-4">Payment Method</h3>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 p-3 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700/50">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="card"
+                      checked={selectedPayment === "card"}
+                      onChange={(e) => setSelectedPayment(e.target.value)}
+                      className="text-red-500 focus:ring-red-500"
+                    />
+                    <CreditCard className="h-5 w-5 text-gray-400" />
+                    <span>Credit/Debit Card</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 border border-gray-700 rounded-lg cursor-pointer hover:bg-gray-700/50">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="cash"
+                      checked={selectedPayment === "cash"}
+                      onChange={(e) => setSelectedPayment(e.target.value)}
+                      className="text-red-500 focus:ring-red-500"
+                    />
+                    <Wallet className="h-5 w-5 text-gray-400" />
+                    <span>Cash</span>
+                  </label>
+                </div>
+
+                <button
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg mt-6 transition-colors cursor-pointer"
+                  onClick={() => {
+                    setPickup("");
+                    setDestination("");
+                    setShowForm(false);
+                    setShowConfirmation(false);
+                    alert("Booking confirmed! Your ride is on the way.");
+                  }}
+                >
+                  BOOK NOW - ${estimatedPrice}
+                </button>
+              </div>
             </div>
           )}
         </div>
