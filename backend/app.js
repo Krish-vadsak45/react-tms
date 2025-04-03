@@ -1,12 +1,13 @@
 import express from "express";
 import connectDB from "./database/index.js";
-import passengerTable from "./models/passenger.model.js"
+// import passengerTable from "./models/passenger.model.js"
 import dotenv from "dotenv";
+import routes from "./routes/route.js";
+
 const app = express();
 dotenv.config({
     path: "./env"
 })
-
 
 connectDB()
 .then(()=>{
@@ -17,6 +18,10 @@ connectDB()
     console.log("Error: Database connection failed",err);
 })
 
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
+
+app.use("/api/data/",routes);
 // passengerTable();
 
 app.listen(process.env.PORT || 5000,()=>{
