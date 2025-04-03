@@ -20,7 +20,7 @@ const Emergency = () => {
 
     try {
       // Send data to backend
-      const response = await fetch("http://localhost:5000/emergency", {
+      const response = await fetch("http://localhost:3000/api/data/Emergency", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,10 @@ const Emergency = () => {
       console.error("❌ Error sending emergency data:", error);
       toast.error("Network error. Please try again later.", { position: "top-right", autoClose: 3000 });
     }
+
+    
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
