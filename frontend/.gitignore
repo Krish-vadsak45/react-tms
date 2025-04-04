@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 taxi-image.png
 .gitignore
+package.json
+package-lock.json
