@@ -1,4 +1,3 @@
-import { application } from "express";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,16 +9,16 @@ export default function Passengersignin() {
   const [password, setPassword] = useState("");
   const [mobile, setMobile] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const userData = {email, username, password, mobile}
   const navigate = useNavigate();
   const handleLogin = () => {
     navigate("/Login/passenger", { replace: true });
   };
+  
+  const userData = {email, username, password, mobile}
 
   const handleSigninsubmit = async (e) => {
     e.preventDefault();
-    console.log({ username, mobile, carNo, email, password });
-    if (!email || !password || !username || !mobile || !carNo) {
+    if (!email || !password || !username || !mobile) {
       toast.error("Please fill in all fields.", {
         position: "top-right",
         autoClose: 3000,
@@ -44,12 +43,10 @@ export default function Passengersignin() {
     const response = await fetch("http://localhost:3000/api/data/Passenger",{
       method: "POST",
       headers: {
-        "Content-type" : application/json,
+        "Content-type" : "application/json",
       },
-      body: json.strigyfy({userData})
+      body: JSON.stringify(userData)
     })
-
-    console.log(response);
     
     if(response.ok){
       setEmail("");

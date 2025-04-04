@@ -11,8 +11,8 @@ export default function PassengerLogin() {
   const handleSignIn = () => {
     navigate("/sign-in/captain-sign-in", { replace: true });
   };
-  const data = {   email, password }
-   handleLoginsubmit = async (e) => {
+  const data = { email, password };
+  const handleLoginsubmit = async (e) => {
     e.preventDefault();
     console.log({ email, password });
     if (!email || !password) {
@@ -37,22 +37,21 @@ export default function PassengerLogin() {
       progress: undefined,
     });
 
-    const response = await fetch("http://localhost:3000/api/data/Passenger",{
+    const response = await fetch("http://localhost:3000/api/data/PassengerLogIn", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: json.stringfy({data})
-    })
+      body: JSON.stringify(data),
+    });
 
-    if(response.ok){
+    if (response.ok) {
       setEmail("");
-      setPassword("")
+      setPassword("");
       toast.success("User Logged In...");
-    }else{
-      toast.error("Email or password is wrond !!")
+    } else {
+      toast.error("Email or password is wrong !!");
     }
-
   };
 
   return (
