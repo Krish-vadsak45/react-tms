@@ -15,7 +15,7 @@ export default function Captainsignin() {
     navigate("/Login/Captain", { replace: true });
   };
 
-  const handleSigninsubmit = (e) => {
+  const handleSigninsubmit = async (e) => {
     e.preventDefault();
     console.log({ username, mobile, carNo, email, password });
     if (!email || !password || !username || !mobile || !carNo) {
@@ -39,6 +39,45 @@ export default function Captainsignin() {
       draggable: true,
       progress: undefined,
     });
+
+    try {
+      const response = await fetch("http://localhost:3000/api/data/Captain", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          username,
+          mobile_no: mobile,
+          car_no: carNo,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message || "Sign-up Successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        // Optional: Redirect to login after sign-up
+        setTimeout(() => {
+          navigate("/Login/Captain");
+        }, 3000);
+      } else {
+        toast.error(data.error || "Sign-up failed. Try again.");
+      }
+    } catch (err) {
+      console.error("Sign-up error:", err);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   return (

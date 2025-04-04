@@ -12,7 +12,7 @@ const Emergency = async(req, res)=>{
     if (!location || !description) {
       return res.status(400).json({ error: "Location and description are required." });
     }
-
+    
     return res.status(200).json({result: "Emergency request is noticed"});
   
 }
