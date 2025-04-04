@@ -15,4 +15,6 @@ routes.route("/Captain").post(Captain);
 routes.route("/Contactus").post(ContactUs);
 routes.route("/Trip").post(Trip);
 
+console.log("Hello");
+
 export default routes;
