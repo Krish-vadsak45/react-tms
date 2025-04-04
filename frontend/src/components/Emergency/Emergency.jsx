@@ -28,8 +28,6 @@ const Emergency = () => {
         body: JSON.stringify(emergencyData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         toast.success("Emergency Alert Sent! We will help you soon.", { position: "top-right", autoClose: 3000 });
         setLocation("");

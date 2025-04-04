@@ -1,21 +1,14 @@
 import db from "../database/index.js"
 
 const Passenger = async(req, res)=>{
-    console.log("Received Emergency Request:", req.body);
+  const { name, email, mobile, password } = req.body;
 
-    const { location, description } = req.body;
-    
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ error: "Request body is missing or empty" });
-    }
-  
-  
-    if (!location || !description) {
-      return res.status(400).json({ error: "Location and description are required." });
-    }
-  
-    console.log("Location:", location);
-    console.log("Description:", description);
+  if(!name || !email || !mobile || !password){
+    return res.status(400).json({Error: "All fileds are required."});
+  }
+
+  console.log(req.body);
+  return res.status(200).json({result: "User registered sucessfully."})
   
 }
 
