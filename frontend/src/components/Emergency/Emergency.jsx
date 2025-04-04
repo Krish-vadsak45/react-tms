@@ -25,7 +25,7 @@ const Emergency = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(emergencyData),
+        body: JSON.stringify(emergencyData)
       });
 
       if (response.ok) {

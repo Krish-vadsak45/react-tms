@@ -8,17 +8,17 @@ export default function Passengersignin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [mobile, setMobile] = useState("");
-  const [carNo, setCarNo] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleLogin = () => {
     navigate("/Login/passenger", { replace: true });
   };
+  
+  const userData = {email, username, password, mobile}
 
-  const handleSigninsubmit = (e) => {
+  const handleSigninsubmit = async (e) => {
     e.preventDefault();
-    console.log({ username, mobile, carNo, email, password });
-    if (!email || !password || !username || !mobile || !carNo) {
+    if (!email || !password || !username || !mobile) {
       toast.error("Please fill in all fields.", {
         position: "top-right",
         autoClose: 3000,
@@ -39,6 +39,25 @@ export default function Passengersignin() {
       draggable: true,
       progress: undefined,
     });
+
+    const response = await fetch("http://localhost:3000/api/data/Passenger",{
+      method: "POST",
+      headers: {
+        "Content-type" : "application/json",
+      },
+      body: JSON.stringify(userData)
+    })
+    
+    if(response.ok){
+      setEmail("");
+      setPassword("")
+      setUsername("")
+      setMobile("")
+      toast.success("User Registered sucessfully...");
+    }else{
+      toast.error("all fields are required!!!")
+    }
+    
   };
 
   return (
@@ -76,20 +95,6 @@ export default function Passengersignin() {
               placeholder="Enter your Username"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col">
-          <label className="font-semibold text-gray-800">Car No.</label>
-          <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
-            <input
-              type="text"
-              className="ml-2 flex-grow border-none focus:outline-none"
-              placeholder="Enter your Email"
-              value={carNo}
-              onChange={(e) => setCarNo(e.target.value)}
               required
             />
           </div>

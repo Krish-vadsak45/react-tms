@@ -1,11 +1,9 @@
-// import { json } from "body-parser";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function PassengerLogin() {
-  const data = {email, password }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +11,7 @@ export default function PassengerLogin() {
   const handleSignIn = () => {
     navigate("/sign-in/captain-sign-in", { replace: true });
   };
+  const data = { email, password };
   const handleLoginsubmit = async (e) => {
     e.preventDefault();
     console.log({ email, password });
@@ -38,22 +37,21 @@ export default function PassengerLogin() {
       progress: undefined,
     });
 
-    const response = await fetch("http://localhost:3000/api/data/Passenger",{
+    const response = await fetch("http://localhost:3000/api/data/PassengerLogIn", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: json.stringfy({data})
-    })
+      body: JSON.stringify(data),
+    });
 
-    if(response.ok){
+    if (response.ok) {
       setEmail("");
-      setPassword("")
+      setPassword("");
       toast.success("User Logged In...");
-    }else{
-      toast.error("Email or password is wrond !!")
+    } else {
+      toast.error("Email or password is wrong !!");
     }
-
   };
 
   return (
