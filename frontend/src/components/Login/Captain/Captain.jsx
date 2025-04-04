@@ -8,12 +8,14 @@ export default function CaptainLogin() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleSignIn = () => {
     navigate("/sign-in/captain-sign-in", { replace: true });
   };
-  const handleLoginsubmit = (e) => {
+
+  const handleLoginsubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password });
+
     if (!email || !password) {
       toast.error("Please fill in all fields.", {
         position: "top-right",
@@ -26,17 +28,55 @@ export default function CaptainLogin() {
       });
       return;
     }
-    toast.success("Login Succesfull!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
 
-    // alert("Emergency services have been notified. Help is on the way.");
+    try {
+      const response = await fetch("http://localhost:3000/api/data/CaptainLogIn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Login successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+      } else {
+        toast.error(data.error || "Login failed.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -76,7 +116,6 @@ export default function CaptainLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              // autoComplete="new-password"
             />
             <button
               type="button"
@@ -112,12 +151,14 @@ export default function CaptainLogin() {
           <NavLink
             to="/Sign-in/Captain-sign-in"
             onClick={handleSignIn}
-            className="relative cursor-pointer text-blue-700 underline "
+            className="relative cursor-pointer text-blue-700 underline ml-1"
           >
             Sign In
           </NavLink>
         </div>
       </form>
+
+      <ToastContainer />
     </div>
   );
 }
