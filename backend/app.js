@@ -10,10 +10,10 @@ dotenv.config({
     path: "./env"
 })
 
+
 connectDB()
 .then(()=>{
-    console.log("Connect with MYSQL!");
-    
+    console.log("Connect with MYSQL!");  
 })
 .catch((err)=>{
     console.log("Error: Database connection failed",err);
@@ -27,5 +27,4 @@ app.use("/api/data/",routes);
 
 app.listen(process.env.PORT || 5000,()=>{
     console.log("Server running on ",process.env.PORT || 5000);
-    
 });
