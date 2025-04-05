@@ -166,38 +166,39 @@ export default function Contact() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ name, email, subject, message });
 
-    if (!name || !email || !subject || !message) {
-      toast.error("Please fill in all fields!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+    if (!name || !email|| !message) {
+      toast.error("Please fill in all fields!");
       return;
     }
 
-    toast.success("Message sent successfully!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    try {
+      const response = await fetch("http://localhost:3000/api/data/Contactus", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
 
-    setName("");
-    setEmail("");
-    setSubject("");
-    setMessage("");
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+      } else {
+        toast.error(data.error || "Something went wrong!");
+      }
+    } catch (err) {
+      toast.error("Failed to send message. Please try again later.");
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
@@ -265,7 +266,6 @@ export default function Contact() {
                     onChange={(e) => setSubject(e.target.value)}
                     className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-10 focus:outline-none focus:ring-2 focus:ring-red-500"
                     placeholder="How can we help?"
-                    required
                   />
                 </div>
               </div>
