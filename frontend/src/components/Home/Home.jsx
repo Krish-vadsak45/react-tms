@@ -101,7 +101,7 @@ const Home = () => {
       });
     }, 50);
   };
-  
+
   const apiKey =
     "yilPvIBDkUeSfXZCMxlHJRKu2zMbUy9DDFlUjnFDZiAdZG6m4Ei2cEQhRKoR5V2E";
   const [pickup, setPickup] = useState("");
@@ -117,52 +117,60 @@ const Home = () => {
   const handleConfirmRide = async (e) => {
     e.preventDefault();
     if (!pickup || !destination) {
-      alert("Please enter both pickup and destination locations.");
+      toast.error("Please enter both pickup and destination locations.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       return;
     }
-  
+
     const result = await calculateDistance(); // get calculated data
 
-    if(result){
+    if (result) {
       setShowConfirmation(true);
       setShowForm(false);
     }
-    
   };
-  
 
   const calculateDistance = async () => {
     if (!pickup || !destination) {
       alert("Please enter both pickup and destination locations.");
       return;
     }
-  
+
     const pickupEncoded = encodeURIComponent(pickup);
     const destinationEncoded = encodeURIComponent(destination);
     const url = `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${pickupEncoded}&destinations=${destinationEncoded}&key=${apiKey}`;
-  
+
     try {
       const response = await fetch(url);
       const data = await response.json();
       console.log("API Response:", data); // Debug
-  
+
       if (
         data.status === "OK" &&
         data.rows.length > 0 &&
         data.rows[0].elements.length > 0
       ) {
         const element = data.rows[0].elements[0];
-  
+
         if (element.status === "OK") {
           const distanceText = element.distance.text;
           const durationText = element.duration.text;
           const estimatedPrice = Math.round(parseFloat(distanceText)) * 10;
-  
+
           // Update React state
           setDistance(distanceText);
           setEstimatedTime(durationText);
           setEstimatedPrice(estimatedPrice);
-  
+
           // Prepare data to send to backend
           const tripData = {
             pickup,
@@ -170,23 +178,30 @@ const Home = () => {
             distance: distanceText,
             estimatedPrice,
           };
-  
+
           // Send trip data to backend
-          const tripResponse = await fetch("http://localhost:3000/api/data/Trip", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(tripData),
-          });
-  
+          const tripResponse = await fetch(
+            "http://localhost:3000/api/data/Trip",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(tripData),
+            }
+          );
+
           if (tripResponse.ok) {
             console.log("Trip saved successfully.");
           } else {
             console.error("Ride not booked!");
           }
-  
-          return { distance: distanceText, time: durationText, price: estimatedPrice };
+
+          return {
+            distance: distanceText,
+            time: durationText,
+            price: estimatedPrice,
+          };
         } else if (element.status === "ZERO_RESULTS") {
           console.log("No results found for the given locations.");
         } else {
@@ -198,27 +213,29 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  
+
     return null;
   };
-  
 
   const testimonials = [
     {
       name: "Sarah Johnson",
       role: "Regular Customer",
+      image: "./src/assets/1-girl.png",
       feedback:
         "QuickRide has been my go-to taxi service for the past year. The drivers are always professional and the cars are clean. I love how easy it is to book a ride through the app!",
     },
     {
       name: "Michael Smith",
       role: "Business Traveler",
+      image: "./src/assets/boy.png",
       feedback:
         "I frequently travel for work, and QuickRide has never let me down. Their service is punctual, and I always feel safe no matter the time of day.",
     },
     {
       name: "Emily Davis",
       role: "Frequent Rider",
+      image: "./src/assets/2-girl.png",
       feedback:
         "The convenience and affordability of QuickRide make it my preferred choice for daily commutes. The drivers are friendly, and the app experience is seamless!",
     },
@@ -392,7 +409,6 @@ const Home = () => {
                     setDestination("");
                     setShowForm(false);
                     setDistance(0);
-
                   }}
                 >
                   BOOK NOW - ${estimatedPrice}
@@ -583,7 +599,7 @@ const Home = () => {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-gray-900 rounded-xl p-8 relative transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg"
+                className="bg-gray-900 rounded-xl p-8 relative transition-all duration-300 ease-in-out hover:scale-108 hover:rotate-1 hover:shadow-lg"
               >
                 <div className="absolute -top-5 left-8 w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-white" />
@@ -600,7 +616,13 @@ const Home = () => {
                   &quot;{testimonial.feedback}&quot;
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-700 mr-4"></div>
+                  <div className="w-12 h-12 rounded-full bg-gray-700 mr-4">
+                    <img
+                      src={testimonial.image}
+                      alt="hiii"
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
                   <div>
                     <h4 className="font-semibold text-white">
                       {testimonial.name}

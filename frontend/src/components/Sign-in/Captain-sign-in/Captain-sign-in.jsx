@@ -1,6 +1,6 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Captainsignin() {
@@ -18,8 +18,10 @@ export default function Captainsignin() {
   const handleSigninsubmit = async (e) => {
     e.preventDefault();
     console.log({ username, mobile, carNo, email, password });
-    if (!email || !password || !username || !mobile || !carNo) {
-      toast.error("Please fill in all fields.", {
+    const indianMobileRegex = /^[6-9]\d{9}$/;
+    const carRegex = /^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/i;
+    if (!indianMobileRegex.test(mobile)) {
+      toast.error("Please enter a valid mobile number.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -28,56 +30,77 @@ export default function Captainsignin() {
         draggable: true,
         progress: undefined,
       });
-      return;
-    }
-    toast.success("Sign-in Succesfull!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
-    try {
-      const response = await fetch("http://localhost:3000/api/data/Captain", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          username,
-          mobile_no: mobile,
-          car_no: carNo,
-        }),
+    } else if (!carRegex.test(carNo)) {
+      toast.error("Please enter a valid car number.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast.success(data.message || "Sign-up Successful!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
+    } else {
+      try {
+        const response = await fetch("http://localhost:3000/api/data/Captain", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            username,
+            mobile_no: mobile,
+            car_no: carNo,
+          }),
         });
 
-        // Optional: Redirect to login after sign-up
-        setTimeout(() => {
-          navigate("/Login/Captain");
-        }, 3000);
-      } else {
-        toast.error(data.error || "Sign-up failed. Try again.");
+        const data = await response.json();
+
+        if (response.ok) {
+          toast.success(data.message || "Sign-up Successful!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+
+          // Optional: Redirect to login after sign-up
+          setTimeout(() => {
+            navigate("/Login/Captain");
+          }, 3000);
+        } else {
+          toast.error(data.error || "Sign-up failed. Try again.");
+        }
+      } catch (err) {
+        console.error("Sign-up error:", err);
+        toast.error("Something went wrong. Please try again.");
       }
-    } catch (err) {
-      console.error("Sign-up error:", err);
-      toast.error("Something went wrong. Please try again.");
     }
+    // if (!email || !password || !username || !mobile || !carNo) {
+    //   toast.error("Please fill in all fields.", {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   return;
+    // }
+    // toast.success("Sign-in Succesfull!", {
+    //   position: "top-right",
+    //   autoClose: 3000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    // });
   };
 
   return (
@@ -107,12 +130,23 @@ export default function Captainsignin() {
         </div>
 
         <div>
-          <label className="font-semibold text-gray-800">Mobile No.</label>
+          {/* <label className="font-semibold text-gray-800">Mobile No.</label>
           <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
             <input
               type="tel"
               className="ml-2 flex-grow border-none focus:outline-none"
               placeholder="Enter your Username"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              required
+            />
+          </div> */}
+          <label className="font-semibold text-gray-800">Mobile No.</label>
+          <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
+            <input
+              type="tel"
+              className="ml-2 flex-grow border-none focus:outline-none"
+              placeholder="Enter your mobile number"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               required
@@ -128,7 +162,7 @@ export default function Captainsignin() {
               className="ml-2 flex-grow border-none focus:outline-none"
               placeholder="Enter your Email"
               value={carNo}
-              onChange={(e) => setCarNo(e.target.value)}
+              onChange={(e) => setCarNo(e.target.value.toUpperCase())}
               required
             />
           </div>

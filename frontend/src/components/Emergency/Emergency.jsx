@@ -1,17 +1,29 @@
 import React, { useState } from "react";
-import { AlertTriangle, MapPin, Send, Phone, Shield, User, Clock } from "lucide-react";
+import {
+  AlertTriangle,
+  MapPin,
+  Send,
+  Phone,
+  Shield,
+  User,
+  Clock,
+} from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Emergency = () => {
-  const [location, setLocation] = useState("");
+  const [currentlocation, setCurrentlocation] = useState("");
+  const [destinationlocation, setDestinationlocation] = useState("");
   const [description, setDescription] = useState("");
 
   const handleEmergency = async (e) => {
     e.preventDefault();
 
     if (!location || !description) {
-      toast.error("Please fill in all fields.", { position: "top-right", autoClose: 3000 });
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -25,24 +37,30 @@ const Emergency = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(emergencyData)
+        body: JSON.stringify(emergencyData),
       });
 
       if (response.ok) {
-        toast.success("Emergency Alert Sent! We will help you soon.", { position: "top-right", autoClose: 3000 });
+        toast.success("Emergency Alert Sent! We will help you soon.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setLocation("");
         setDescription("");
       } else {
-        toast.error(data.error || "Failed to send emergency alert.", { position: "top-right", autoClose: 3000 });
+        toast.error(data.error || "Failed to send emergency alert.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("❌ Error sending emergency data:", error);
-      toast.error("Network error. Please try again later.", { position: "top-right", autoClose: 3000 });
+      toast.error("Network error. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
-
-    
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
@@ -61,29 +79,51 @@ const Emergency = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl">
-            <h2 className="text-2xl font-semibold mb-6">Request Emergency Help</h2>
+            <h2 className="text-2xl font-semibold mb-6">
+              Request Emergency Help
+            </h2>
             <form onSubmit={handleEmergency} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium mb-2">Your Location</label>
+                <label className="block text-sm font-medium mb-2">
+                  Your Location
+                </label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <input
                     type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    value={currentlocation}
+                    onChange={(e) => setCurrentlocation(e.target.value)}
                     className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-10 focus:outline-none focus:ring-2 focus:ring-red-500"
                     placeholder="Enter your current location"
                     required
                   />
                 </div>
               </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Destination Location
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <input
+                    type="text"
+                    value={destinationlocation}
+                    onChange={(e) => setDestinationlocation(e.target.value)}
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-10 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    placeholder="Enter your destination location"
+                    required
+                  />
+                </div>
+              </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">Situation Description</label>
+                <label className="block text-sm font-medium mb-2">
+                  Situation Description
+                </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full max-h-[335px] min-h-[100px] bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-4 h-32 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full max-h-[240px] min-h-[100px] bg-gray-700/50 border border-gray-600 rounded-lg py-2 px-4 h-32 focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="Briefly describe your emergency situation"
                   required
                 />
@@ -96,10 +136,6 @@ const Emergency = () => {
                 <Send className="h-5 w-5" />
                 Send Emergency Alert
               </button>
-
-
-
-
             </form>
           </div>
 

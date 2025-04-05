@@ -13,13 +13,15 @@ export default function Passengersignin() {
   const handleLogin = () => {
     navigate("/Login/passenger", { replace: true });
   };
-  
-  const userData = {email, username, password, mobile}
+
+  const userData = { email, username, password, mobile };
 
   const handleSigninsubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password || !username || !mobile) {
-      toast.error("Please fill in all fields.", {
+    console.log({ username, mobile, email, password });
+    const indianMobileRegex = /^[6-9]\d{9}$/;
+    if (!indianMobileRegex.test(mobile)) {
+      toast.error("Please enter a valid mobile number.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -28,36 +30,46 @@ export default function Passengersignin() {
         draggable: true,
         progress: undefined,
       });
-      return;
-    }
-    toast.success("Sign-in Succesfull!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    } else {
+      const response = await fetch("http://localhost:3000/api/data/Passenger", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
 
-    const response = await fetch("http://localhost:3000/api/data/Passenger",{
-      method: "POST",
-      headers: {
-        "Content-type" : "application/json",
-      },
-      body: JSON.stringify(userData)
-    })
-    
-    if(response.ok){
-      setEmail("");
-      setPassword("")
-      setUsername("")
-      setMobile("")
-      toast.success("User Registered sucessfully...");
-    }else{
-      toast.error("all fields are required!!!")
+      if (response.ok) {
+        setEmail("");
+        setPassword("");
+        setUsername("");
+        setMobile("");
+        toast.success("User Registered sucessfully...");
+      } else {
+        toast.error("all fields are required!!!");
+      }
     }
-    
+    // if (!email || !password || !username || !mobile) {
+    //   toast.error("Please fill in all fields.", {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   return;
+    // }
+    // toast.success("Sign-in Succesfull!", {
+    //   position: "top-right",
+    //   autoClose: 3000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    // });
   };
 
   return (

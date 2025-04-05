@@ -81,7 +81,7 @@ export default function imgGrid() {
                 <div className="absolute -top-6 -left-6 w-24 h-24 bg-orange-600 rounded-lg opacity-50"></div>
                 <div className="relative z-10 rounded-lg overflow-hidden shadow-xl">
                   <img
-                    src="/placeholder.svg?height=600&width=800"
+                    src="./src/assets/About-us.jpeg"
                     width={800}
                     height={600}
                     alt="QuickRide founding team"
@@ -152,7 +152,7 @@ export default function imgGrid() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors">
+              <div className="bg-gray-800 rounded-xl p-8 text-center transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 hover:rotate-2 hover:shadow-xl">
                 <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Shield className="w-8 h-8" />
                 </div>
@@ -163,7 +163,7 @@ export default function imgGrid() {
                 </p>
               </div>
 
-              <div className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors">
+              <div className="bg-gray-800 rounded-xl p-8 text-center transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 hover:rotate-2 hover:shadow-xl">
                 <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Users className="w-8 h-8" />
                 </div>
@@ -174,7 +174,7 @@ export default function imgGrid() {
                 </p>
               </div>
 
-              <div className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors">
+              <div className="bg-gray-800 rounded-xl p-8 text-center transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 hover:rotate-2 hover:shadow-xl">
                 <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Award className="w-8 h-8" />
                 </div>
@@ -185,7 +185,7 @@ export default function imgGrid() {
                 </p>
               </div>
 
-              <div className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors">
+              <div className="bg-gray-800 rounded-xl p-8 text-center transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 hover:rotate-2 hover:shadow-xl">
                 <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Heart className="w-8 h-8" />
                 </div>
