@@ -101,11 +101,7 @@ const Home = () => {
       });
     }, 50);
   };
-
-  // const resetStats = () => {
-  //   setStats((prevStats) => prevStats.map((stat) => ({ ...stat, value: 0 })));
-  // };
-
+  
   const apiKey =
     "yilPvIBDkUeSfXZCMxlHJRKu2zMbUy9DDFlUjnFDZiAdZG6m4Ei2cEQhRKoR5V2E";
   const [pickup, setPickup] = useState("");
@@ -118,66 +114,79 @@ const Home = () => {
   const [estimatedTime, setEstimatedTime] = useState(0);
   const [estimatedPrice, setEstimatedPrice] = useState(0);
 
-  const sendData = async ()=>{
-       
-    const tripData =  {pickup, destination, distance, estimatedPrice}
-
-    const response = await fetch("http://localhost:3000/api/data/Trip",{
-      method:"POST",
-      headers:{
-        "Content-type" : "application/json"
-      },
-      body: JSON.stringify(tripData)
-    })
-
-    if (response.ok) {
-      return;
-    }else{
-      console.error("Ride is not booked!");
-    }
-  }
-
   const handleConfirmRide = async (e) => {
     e.preventDefault();
-    if (pickup && destination) {
-      await calculateDistance();
+    if (!pickup || !destination) {
+      alert("Please enter both pickup and destination locations.");
+      return;
+    }
+  
+    const result = await calculateDistance(); // get calculated data
+
+    if(result){
       setShowConfirmation(true);
       setShowForm(false);
     }
-
-    await sendData();
- 
+    
   };
+  
 
   const calculateDistance = async () => {
     if (!pickup || !destination) {
       alert("Please enter both pickup and destination locations.");
       return;
     }
-
+  
     const pickupEncoded = encodeURIComponent(pickup);
     const destinationEncoded = encodeURIComponent(destination);
     const url = `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${pickupEncoded}&destinations=${destinationEncoded}&key=${apiKey}`;
-
+  
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data); // Log the response for debugging
-
+      console.log("API Response:", data); // Debug
+  
       if (
         data.status === "OK" &&
         data.rows.length > 0 &&
         data.rows[0].elements.length > 0
       ) {
         const element = data.rows[0].elements[0];
+  
         if (element.status === "OK") {
-          // `Distance: ${element.distance.text}, Duration: ${element.duration.text}`
-           setDistance(element.distance.text);
-           setEstimatedTime(element.duration.text);
-           setEstimatedPrice(
-            Math.round(parseFloat(element.distance.text)) * 10
-          );
-          // setShowConfirmation(true);
+          const distanceText = element.distance.text;
+          const durationText = element.duration.text;
+          const estimatedPrice = Math.round(parseFloat(distanceText)) * 10;
+  
+          // Update React state
+          setDistance(distanceText);
+          setEstimatedTime(durationText);
+          setEstimatedPrice(estimatedPrice);
+  
+          // Prepare data to send to backend
+          const tripData = {
+            pickup,
+            destination,
+            distance: distanceText,
+            estimatedPrice,
+          };
+  
+          // Send trip data to backend
+          const tripResponse = await fetch("http://localhost:3000/api/data/Trip", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tripData),
+          });
+  
+          if (tripResponse.ok) {
+            console.log("Trip saved successfully.");
+          } else {
+            console.error("Ride not booked!");
+          }
+  
+          return { distance: distanceText, time: durationText, price: estimatedPrice };
         } else if (element.status === "ZERO_RESULTS") {
           console.log("No results found for the given locations.");
         } else {
@@ -189,9 +198,10 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
-    
+  
+    return null;
   };
+  
 
   const testimonials = [
     {

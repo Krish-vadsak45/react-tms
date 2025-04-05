@@ -1,7 +1,7 @@
 import db from "../database/index.js"
 
 const Trip = async(req, res)=>{
-    const {pickup, destination, setEstimatedPrice, setDistance} = req.body;
+    const {pickup, destination, estimatedPrice, distance} = req.body;
 
     if (!pickup || !destination) {
       res.status(400).json({Error: "All fields are requierd"});
