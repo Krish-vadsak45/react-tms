@@ -1,22 +1,16 @@
 import db from "../database/index.js"
 
 const Trip = async(req, res)=>{
-    console.log("Received Emergency Request:", req.body);
+    const {pickup, destination, setEstimatedPrice, setDistance} = req.body;
 
-    const { location, description } = req.body;
+    if (!pickup || !destination) {
+      res.status(400).json({Error: "All fields are requierd"});
+    }else{
+      res.status(200).json({Result: "Ride book Sucessfully..."})
+    }
+
+    console.log(req.body);
     
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ error: "Request body is missing or empty" });
-    }
-  
-  
-    if (!location || !description) {
-      return res.status(400).json({ error: "Location and description are required." });
-    }
-  
-    console.log("Location:", location);
-    console.log("Description:", description);
-  
 }
 
 export default Trip;

@@ -19,7 +19,4 @@ routes.route("/Trip").post(Trip);
 routes.route("/PassengerLogIn").post(PassengerLogIn);
 routes.route("/CaptainLogIn").post(CaptainLogIn);
 
-
-console.log("Hello");
-
 export default routes;

@@ -118,14 +118,35 @@ const Home = () => {
   const [estimatedTime, setEstimatedTime] = useState(0);
   const [estimatedPrice, setEstimatedPrice] = useState(0);
 
+  const sendData = async ()=>{
+       
+    const tripData =  {pickup, destination, distance, estimatedPrice}
+
+    const response = await fetch("http://localhost:3000/api/data/Trip",{
+      method:"POST",
+      headers:{
+        "Content-type" : "application/json"
+      },
+      body: JSON.stringify(tripData)
+    })
+
+    if (response.ok) {
+      return;
+    }else{
+      console.error("Ride is not booked!");
+    }
+  }
+
   const handleConfirmRide = async (e) => {
     e.preventDefault();
     if (pickup && destination) {
+      await calculateDistance();
       setShowConfirmation(true);
+      setShowForm(false);
     }
-    await calculateDistance();
-    setShowForm(false);
-    setShowConfirmation(true);
+
+    await sendData();
+ 
   };
 
   const calculateDistance = async () => {
@@ -151,12 +172,12 @@ const Home = () => {
         const element = data.rows[0].elements[0];
         if (element.status === "OK") {
           // `Distance: ${element.distance.text}, Duration: ${element.duration.text}`
-          setDistance(element.distance.text);
-          setEstimatedTime(element.duration.text);
-          setEstimatedPrice(
-            Math.round(parseFloat(element.distance.value) / 1000) * 10
+           setDistance(element.distance.text);
+           setEstimatedTime(element.duration.text);
+           setEstimatedPrice(
+            Math.round(parseFloat(element.distance.text)) * 10
           );
-          setShowConfirmation(true);
+          // setShowConfirmation(true);
         } else if (element.status === "ZERO_RESULTS") {
           console.log("No results found for the given locations.");
         } else {
@@ -168,6 +189,8 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+    
   };
 
   const testimonials = [
@@ -354,11 +377,12 @@ const Home = () => {
 
                     setTimeout(() => {
                       setShowConfirmation(false);
-                    }, 5000);
+                    }, 3000);
                     setPickup("");
                     setDestination("");
                     setShowForm(false);
                     setDistance(0);
+
                   }}
                 >
                   BOOK NOW - ${estimatedPrice}
