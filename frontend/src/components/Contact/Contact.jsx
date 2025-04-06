@@ -25,7 +25,7 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email|| !message) {
+    if (!name || !email || !message) {
       toast.error("Please fill in all fields!");
       return;
     }
@@ -54,7 +54,6 @@ export default function Contact() {
       toast.error("Failed to send message. Please try again later.");
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
@@ -141,7 +140,7 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <Send className="h-5 w-5" />
                 Send Message

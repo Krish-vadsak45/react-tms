@@ -95,30 +95,6 @@ export default function Footer() {
                   About
                 </NavLink>
               </li>
-              {/* <li>
-                  <NavLink
-                    to="/Safety"
-                    className={({ isActive }) =>
-                      `${
-                        isActive ? "text-orange-700" : "text-gray-50"
-                      } relative no-underline transition-all duration-300`
-                    }
-                  >
-                    Safety
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/Blogs"
-                    className={({ isActive }) =>
-                      `${
-                        isActive ? "text-orange-700" : "text-gray-50"
-                      } relative no-underline transition-all duration-300`
-                    }
-                  >
-                    Blogs
-                  </NavLink>
-                </li> */}
               <li>
                 <NavLink
                   to="/Contact"
@@ -163,44 +139,29 @@ export default function Footer() {
             <h3 className="text-lg text-white font-semibold mb-4">Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+                <span className="text-gray-400 hover:text-white">
                   City Rides
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+                <span className="text-gray-400 hover:text-white transition-colors">
                   Airport Transfers
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+                <span className="text-gray-400 hover:text-white transition-colors">
                   Corporate Travel
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+                <span className="text-gray-400 hover:text-white transition-colors">
                   Event Transportation
-                </Link>
+                </span>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+                <span className="text-gray-400 hover:text-white transition-colors">
                   Package Delivery
-                </Link>
+                </span>
               </li>
             </ul>
           </div>

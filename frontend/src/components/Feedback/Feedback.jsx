@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
 import {
   MessageSquare,
   Star,
@@ -185,7 +184,7 @@ const Feedback = () => {
                   id="feedback-details"
                   rows={5}
                   placeholder="Please share your thoughts, suggestions, or concerns..."
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full max-h-[400px] min-h-[100px] px-4 py-3 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 ></textarea>
               </div>
 
