@@ -80,27 +80,37 @@ export default function Captainsignin() {
         toast.error("Something went wrong. Please try again.");
       }
     }
-    // if (!email || !password || !username || !mobile || !carNo) {
-    //   toast.error("Please fill in all fields.", {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   return;
-    // }
-    // toast.success("Sign-in Succesfull!", {
-    //   position: "top-right",
-    //   autoClose: 3000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    // });
+    if (!email || !password || !username || !mobile || !carNo) {
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    toast.success("Sign-in Succesfull!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+    if (response.ok) {
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      setMobile("");
+      toast.success("User Registered sucessfully...");
+    } else {
+      toast.error("all fields are required!!!");
+    }
   };
 
   return (

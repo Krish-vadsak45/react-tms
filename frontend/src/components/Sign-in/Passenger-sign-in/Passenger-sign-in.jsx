@@ -39,6 +39,28 @@ export default function Passengersignin() {
         body: JSON.stringify(userData),
       });
 
+      if (!email || !password || !username || !mobile) {
+        toast.error("Please fill in all fields.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
+      toast.success("Sign-in Succesfull!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
       if (response.ok) {
         setEmail("");
         setPassword("");
@@ -49,27 +71,7 @@ export default function Passengersignin() {
         toast.error("all fields are required!!!");
       }
     }
-    // if (!email || !password || !username || !mobile) {
-    //   toast.error("Please fill in all fields.", {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   return;
-    // }
-    // toast.success("Sign-in Succesfull!", {
-    //   position: "top-right",
-    //   autoClose: 3000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    // });
+    
   };
 
   return (

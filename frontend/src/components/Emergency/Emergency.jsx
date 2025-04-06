@@ -19,7 +19,7 @@ const Emergency = () => {
   const handleEmergency = async (e) => {
     e.preventDefault();
 
-    if (!location || !description) {
+    if (!currentlocation || !description || !destinationlocation) {
       toast.error("Please fill in all fields.", {
         position: "top-right",
         autoClose: 3000,
@@ -28,7 +28,7 @@ const Emergency = () => {
     }
 
     // Prepare data
-    const emergencyData = { location, description };
+    const emergencyData = { currentlocation, description ,destinationlocation};
 
     try {
       // Send data to backend
@@ -39,14 +39,16 @@ const Emergency = () => {
         },
         body: JSON.stringify(emergencyData),
       });
+        setLocation("");
+        setDestinationlocation("");
+        setDescription("");
 
       if (response.ok) {
         toast.success("Emergency Alert Sent! We will help you soon.", {
           position: "top-right",
           autoClose: 3000,
         });
-        setLocation("");
-        setDescription("");
+        
       } else {
         toast.error(data.error || "Failed to send emergency alert.", {
           position: "top-right",

@@ -41,6 +41,14 @@ export default function CaptainLogin() {
         }
       );
 
+      if (response.ok) {
+        setEmail("");
+        setPassword("");
+        toast.success("User Logged In...");
+      } else {
+        toast.error("Email or password is wrong !!");
+      }
+
       const data = await response.json();
 
       if (response.ok) {
@@ -54,9 +62,6 @@ export default function CaptainLogin() {
           progress: undefined,
         });
 
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 2000);
       } else {
         toast.error(data.error || "Login failed.", {
           position: "top-right",
