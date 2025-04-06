@@ -104,7 +104,10 @@ export default function Captainsignin() {
   };
 
   return (
-    <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
+    <div
+      className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center"
+      loading="lazy"
+    >
       <form
         onSubmit={handleSigninsubmit}
         className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg"
@@ -130,17 +133,6 @@ export default function Captainsignin() {
         </div>
 
         <div>
-          {/* <label className="font-semibold text-gray-800">Mobile No.</label>
-          <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
-            <input
-              type="tel"
-              className="ml-2 flex-grow border-none focus:outline-none"
-              placeholder="Enter your Username"
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-              required
-            />
-          </div> */}
           <label className="font-semibold text-gray-800">Mobile No.</label>
           <div className="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-blue-500">
             <input

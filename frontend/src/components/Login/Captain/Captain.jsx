@@ -30,13 +30,16 @@ export default function CaptainLogin() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/data/CaptainLogIn", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/data/CaptainLogIn",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -80,7 +83,10 @@ export default function CaptainLogin() {
   };
 
   return (
-    <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
+    <div
+      className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center"
+      loading="lazy"
+    >
       <form
         onSubmit={handleLoginsubmit}
         className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg"

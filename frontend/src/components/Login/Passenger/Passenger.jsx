@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function PassengerLogin() {
@@ -37,13 +37,16 @@ export default function PassengerLogin() {
       progress: undefined,
     });
 
-    const response = await fetch("http://localhost:3000/api/data/PassengerLogIn", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "http://localhost:3000/api/data/PassengerLogIn",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     if (response.ok) {
       setEmail("");
@@ -55,7 +58,10 @@ export default function PassengerLogin() {
   };
 
   return (
-    <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
+    <div
+      className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center"
+      loading="lazy"
+    >
       <form
         onSubmit={handleLoginsubmit}
         className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg"

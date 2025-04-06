@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useMemo, useState } from "react";
 import {
   Users,
   Shield,
@@ -11,35 +10,38 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-export default function imgGrid() {
+export default function About() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const items = [
-    {
-      title: "Vishal Shingala",
-      img: "./src/assets/vishal.png",
-      description: "Experience New York, Nonstop",
-      details: "Travel Time: 15 Hours, 15 Minutes",
-    },
-    {
-      title: "Krish Vadsak",
-      img: "./src/assets/krish.png",
-      description: "Exclusive Member Benefits",
-      details: "Join Today for Premium Services",
-    },
-    {
-      title: "Yug Suthar",
-      img: "./src/assets/yug.png",
-      description: "Global Network Partners",
-      details: "Access to 26+ Airlines Worldwide",
-    },
-    {
-      title: "Keval Sakariya",
-      img: "./src/assets/keval.png",
-      description: "Shop Anytime, Anywhere",
-      details: "Exclusive Online Deals",
-    },
-  ];
+  const items = useMemo(
+    () => [
+      {
+        title: "Vishal Shingala",
+        img: "./src/assets/vishal.png",
+        description: "Experience New York, Nonstop",
+        details: "Travel Time: 15 Hours, 15 Minutes",
+      },
+      {
+        title: "Krish Vadsak",
+        img: "./src/assets/krish.png",
+        description: "Exclusive Member Benefits",
+        details: "Join Today for Premium Services",
+      },
+      {
+        title: "Yug Suthar",
+        img: "./src/assets/yug.png",
+        description: "Global Network Partners",
+        details: "Access to 26+ Airlines Worldwide",
+      },
+      {
+        title: "Keval Sakariya",
+        img: "./src/assets/keval.png",
+        description: "Shop Anytime, Anywhere",
+        details: "Exclusive Online Deals",
+      },
+    ],
+    []
+  );
 
   return (
     <div>
@@ -86,6 +88,7 @@ export default function imgGrid() {
                     height={600}
                     alt="QuickRide founding team"
                     className="w-full h-auto"
+                    loading="lazy"
                   />
                 </div>
                 <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-orange-600 rounded-lg opacity-50"></div>
@@ -277,6 +280,7 @@ export default function imgGrid() {
                 className={`w-full h-full object-cover transition-all duration-500 ${
                   hoveredIndex === index ? "" : "grayscale"
                 }`}
+                loading="lazy"
               />
               {/* Dark overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/10"></div>

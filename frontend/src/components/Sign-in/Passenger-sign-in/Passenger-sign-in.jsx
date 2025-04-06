@@ -73,7 +73,10 @@ export default function Passengersignin() {
   };
 
   return (
-    <div className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center">
+    <div
+      className="flex justify-center bg-[url('/src/assets/taxi-image.png')] bg-cover bg-center h-screen w-full items-center"
+      loading="lazy"
+    >
       <form
         onSubmit={handleSigninsubmit}
         className="flex flex-col gap-4 bg-white p-8 w-96 rounded-2xl shadow-lg"

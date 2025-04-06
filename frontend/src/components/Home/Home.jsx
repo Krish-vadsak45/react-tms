@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   MapPin,
   Clock,
   Wallet,
   Shield,
   CreditCard,
-  ChevronRight,
   DollarSign,
   Navigation,
   Star,
@@ -13,11 +12,11 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const [stats, setStats] = useState([
+  const statsData = [
     {
       id: 1,
       imgSrc: "./src/assets/buildings.png",
@@ -42,7 +41,11 @@ const Home = () => {
       title: "Kilometers on Taxi",
       description: "Distance covered on Quickride taxi within a year of launch",
     },
-  ]);
+  ];
+
+  const memoizedStats = useMemo(() => statsData, []);
+
+  const [stats, setStats] = useState(memoizedStats);
 
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
@@ -52,7 +55,7 @@ const Home = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          console.log("entry created", entry);
+          // console.log("entry created", entry);
         } else {
           setIsVisible(false);
           // resetStats(); // Reset stats when out of viewport
@@ -217,29 +220,32 @@ const Home = () => {
     return null;
   };
 
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Regular Customer",
-      image: "./src/assets/1-girl.png",
-      feedback:
-        "QuickRide has been my go-to taxi service for the past year. The drivers are always professional and the cars are clean. I love how easy it is to book a ride through the app!",
-    },
-    {
-      name: "Michael Smith",
-      role: "Business Traveler",
-      image: "./src/assets/boy.png",
-      feedback:
-        "I frequently travel for work, and QuickRide has never let me down. Their service is punctual, and I always feel safe no matter the time of day.",
-    },
-    {
-      name: "Emily Davis",
-      role: "Frequent Rider",
-      image: "./src/assets/2-girl.png",
-      feedback:
-        "The convenience and affordability of QuickRide make it my preferred choice for daily commutes. The drivers are friendly, and the app experience is seamless!",
-    },
-  ];
+  const testimonials = useMemo(
+    () => [
+      {
+        name: "Sarah Johnson",
+        role: "Regular Customer",
+        image: "./src/assets/1-girl.png",
+        feedback:
+          "QuickRide has been my go-to taxi service for the past year. The drivers are always professional and the cars are clean. I love how easy it is to book a ride through the app!",
+      },
+      {
+        name: "Michael Smith",
+        role: "Business Traveler",
+        image: "./src/assets/boy.png",
+        feedback:
+          "I frequently travel for work, and QuickRide has never let me down. Their service is punctual, and I always feel safe no matter the time of day.",
+      },
+      {
+        name: "Emily Davis",
+        role: "Frequent Rider",
+        image: "./src/assets/2-girl.png",
+        feedback:
+          "The convenience and affordability of QuickRide make it my preferred choice for daily commutes. The drivers are friendly, and the app experience is seamless!",
+      },
+    ],
+    []
+  );
 
   return (
     <div className="bg-gradient-to-b from-black via-gray-800 to-gray-700 min-h-screen">
@@ -424,6 +430,9 @@ const Home = () => {
             src="./src/assets/taxi-image.png"
             alt="Taxi"
             className="rounded-lg shadow-lg max-w-xs sm:max-w-md lg:max-w-lg scale-110"
+            loading="lazy"
+            height={562}
+            width={562}
           />
         </div>
       </section>
@@ -572,6 +581,7 @@ const Home = () => {
                     src={stat.imgSrc}
                     alt={stat.title}
                     className="h-16 w-16"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-3xl font-bold mt-4">
@@ -621,6 +631,7 @@ const Home = () => {
                       src={testimonial.image}
                       alt="hiii"
                       className="w-full h-full object-cover rounded-full"
+                      loading="lazy"
                     />
                   </div>
                   <div>
@@ -732,9 +743,9 @@ const Home = () => {
               <div className="relative pt-40 w-64 h-[500px]">
                 <img
                   src="./src/assets/logo.png"
-                  fill
                   alt="QuickRide mobile app"
                   className="object-contain scale-200 border-1 border-white rounded-2xl"
+                  loading="lazy"
                 />
               </div>
             </div>

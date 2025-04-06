@@ -24,6 +24,7 @@ export default function Header() {
               src="../src/assets/logo.png"
               className="mr-3 h-12 scale-300 pt-1.5"
               alt="Logo"
+              loading="lazy"
             />
           </Link>
           <div

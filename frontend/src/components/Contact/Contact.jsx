@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Car,
   Phone,
@@ -22,38 +22,78 @@ export default function Contact() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
 
-    if (!name || !email || !message) {
-      toast.error("Please fill in all fields!");
-      return;
-    }
+  //   e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:3000/api/data/Contactus", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, subject, message }),
-      });
+  //   if (!name || !email || !message) {
+  //     toast.error("Please fill in all fields!");
+  //     return;
+  //   }
 
-      const data = await response.json();
+  //   try {
+  //     const response = await fetch("http://localhost:3000/api/data/Contactus", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ name, email, subject, message }),
+  //     });
 
-      if (response.ok) {
-        toast.success("Message sent successfully!");
-        setName("");
-        setEmail("");
-        setSubject("");
-        setMessage("");
-      } else {
-        toast.error(data.error || "Something went wrong!");
+  //     const data = await response.json();
+
+  //     if (response.ok) {
+  //       toast.success("Message sent successfully!");
+  //       setName("");
+  //       setEmail("");
+  //       setSubject("");
+  //       setMessage("");
+  //     } else {
+  //       toast.error(data.error || "Something went wrong!");
+  //     }
+  //   } catch (err) {
+  //     toast.error("Failed to send message. Please try again later.");
+  //   }
+  // };
+
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+
+      console.log({ name, email, subject, message });
+
+      if (!name || !email || !message) {
+        toast.error("Please fill in all fields!");
+        return;
       }
-    } catch (err) {
-      toast.error("Failed to send message. Please try again later.");
-    }
-  };
+
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/data/Contactus",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, subject, message }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          toast.success("Message sent successfully!");
+          setName("");
+          setEmail("");
+          setSubject("");
+          setMessage("");
+        } else {
+          toast.error(data.error || "Something went wrong!");
+        }
+      } catch (err) {
+        toast.error("Failed to send message. Please try again later.");
+      }
+    },
+    [name, email, subject, message]
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
